@@ -112,7 +112,7 @@ function gen_image_code_unique() {
 
 <style>
     .element-box {
-        width: 85%;
+        width: 95%;
         overflow-y: hidden;
         overflow-x: auto;
     }
