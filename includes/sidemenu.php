@@ -72,7 +72,7 @@
                                     <ul class="sub-menu">
                                         <li><a href="employee.php?source=add_emp">Create Employee Account</a></li>
                                         <li><a href="employee.php">Employee Account List</a></li>
-                                        <li><a href="employee_active.php">Employee Account Activate</a></li>
+                                        <li><a href="employee_active.php">Employee Active List</a></li>
                                         <li><a href="employee_deactive.php">Deactivate Employee Account</a></li>
                                     </ul>
                                 </div>

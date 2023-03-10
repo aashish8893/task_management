@@ -9,6 +9,9 @@
                         $Total_emp = 0;
                         if ($result = mysqli_query($connection, $retailer_account)) {
                             $Total_emp = mysqli_num_rows($result);
+
+                           
+                            
                         }
 
                         $retailer_account = "SELECT id FROM emp_login where user_role='employee' and status='1' ";
@@ -23,7 +26,7 @@
                             $Deactive_emp = mysqli_num_rows($result);
                         }
                         $emp_id=  $_SESSION['user'];
-                        $retailer_account = "SELECT task_id FROM assign_task where emp_id='$emp_id'";
+                        $retailer_account = "SELECT task_id FROM assign_task where emp_id='$emp_id'";                        
                         $Total_task = 0;
                         if ($result = mysqli_query($connection, $retailer_account)) {
                             $Total_task = mysqli_num_rows($result);
