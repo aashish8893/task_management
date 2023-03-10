@@ -44,6 +44,7 @@ END - Breadcrumbs
                     
                     while ($row = mysqli_fetch_assoc($qry)) {
                         $news_title = $row['news_title'];
+                        
                 ?>
                 <a href="#" style="color:#fff;font-size: 18px;"><?php echo $news_title;?>&nbsp; <strong>|</strong> </a>
                 <?php }?>
