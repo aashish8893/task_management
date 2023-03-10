@@ -109,6 +109,14 @@ function gen_image_code_unique() {
     return ($startDate + $rand);
 }
 ?>
+
+<style>
+    .element-box {
+        width: 85%;
+        overflow-y: hidden;
+        overflow-x: auto;
+    }
+</style>
 <!--------------------
 START - Breadcrumbs
 -------------------->

@@ -59,7 +59,9 @@ END - Breadcrumbs
                         <thead>
                             <tr>
                                 <th>S No.</th>
-                                <th>Project Name</th>
+                                <th>Project Name</th>                                
+                                <th>Location</th>
+                                <th>Client Name</th>
                                 <th>Description</th>
                                 <th>Budget</th>
                                 <th>Start Target</th>
@@ -71,20 +73,20 @@ END - Breadcrumbs
                         </thead>
                         <tbody>
                             <?php
-                                $qry = mysqli_query($connection, "SELECT * FROM `project_master` where status != 3");
-                               
-                                    $count = 0;
-                                    while ($row = mysqli_fetch_assoc($qry)) {                                        
-                                    $count = $count + 1;
-                                    $id = $row['id'];
-                                    $status = $row['status'];
-                                
+                                $qry = mysqli_query($connection, "SELECT * FROM `project_master` where status != 3");                               
+                                $count = 0;
+                                while ($row = mysqli_fetch_assoc($qry)) {                                        
+                                $count = $count + 1;
+                                $id = $row['id'];
+                                $status = $row['status'];                                
                             ?>
                           <tr>
                             <td><?php echo $count; ?></td>
                             <td><?php echo $row['name']; ?></td>
-                            <td><?php echo $row['description'] ?></td>
-                            <td><?php echo $row['project_budget'] ?></td>
+                            <td><?php echo ucfirst($row['project_location']); ?></td> 
+                            <td><?php echo ucfirst($row['client_name']); ?></td> 
+                            <td><?php echo ucfirst($row['description']); ?></td>
+                            <td><?php echo ucfirst($row['project_budget']); ?></td>
                             <td><?php echo $row['target_start_date'] ?></td>
                             <td><?php echo $row['target_end_date'] ?></td>                           
                             <td>                               

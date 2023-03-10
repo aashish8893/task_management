@@ -8,12 +8,12 @@
             <th>Mobile No</th>
             <th>Email ID</th>
             <th>User ID</th>
-            <th>PSWD</th>
+            <!-- <th>PSWD</th> -->
             <th>Profile</th>
             <th>Date</th>
             <th>Status</th>
             <th>Edit</th>
-            <th>Delete</th>
+            <th style="width: 100%;">Delete</th>
           </tr>
         </thead>
         <tbody>
@@ -27,7 +27,7 @@
               $emp_code = $row['emp_code'];
               $emp_name = $row['emp_name'];
               $user_id = $row['user_id'];
-              $pswd = $row['pswd'];
+              // $pswd = $row['pswd'];
               $status = $row['status'];
               $created = $row['created'];
               $user_role = $row['user_role'];

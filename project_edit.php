@@ -9,20 +9,27 @@ if ($_SESSION['user']) {
 }
 $id = $_GET['id'];
 if($_POST['submit'] == 'Update'){
+    
     $name = $_POST['project_name'];
     $description = $_POST['description'];
     $budget = $_POST['budget'];
     $target_start_date = $_POST['target_start_date'];
     $target_end_date = $_POST['target_end_date'];
     $status = $_POST['status'];
+    $location = $_POST['project_location'];
+    $clientName = $_POST['client_name'];
     $query = "UPDATE `project_master` SET
     `name` = '$name',
     `description` = '$description',
     `project_budget` = '$budget',
     `target_start_date` = '$target_start_date',
     `target_end_date` = '$target_end_date',
+    `project_location` = '$location',
+    `client_name` = '$clientName',
     `status` = '$status'
     WHERE `project_master`.`id` = $id";
+
+    
     $result = $connection->query($query);
     //echo $result; exit();
     // $url = $_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
@@ -48,6 +55,8 @@ $task_id = $row['task_id'];
 $created_by = $row['created_by'];
 $updated_by = $row['updated_by'];
 $status = $row['status'];
+$location = $row['project_location'];
+$clientName = $row['client_name'];
 
 ?>
 
@@ -91,6 +100,22 @@ END - Breadcrumbs
                         </div>
                         <div class="col-sm-1">                            
                         </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-1">                            
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group"><label for="">Project Location</label>                                
+                                <input type="text" id="project_location" value="<?php echo $location; ?>" name="project_location" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group"><label for="">Client Name</label>                                
+                                <input type="text" id="client_name" value="<?php echo $clientName; ?>" name="client_name" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-sm-1"></div>
                     </div>
 
                     <div class="row">

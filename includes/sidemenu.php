@@ -261,8 +261,8 @@
                                     <ul class="sub-menu">
                                         <li><a href="employee.php?source=add_emp">Create Employee Account</a></li>
                                         <li><a href="employee.php">Employee Account List</a></li>
-                                        <li><a href="employee_active.php">Employee Account Activate</a></li>
-                                        <li><a href="employee_deactive.php">Deactivate Employee Account</a></li>
+                                        <li><a href="employee_active.php">Employee Activate List</a></li>
+                                        <li><a href="employee_deactive.php">Employee Deactivate List</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -347,24 +347,7 @@
                                 </div>
                             </div>
                         </li>
-       <!-- <li class=" has-sub-menu">
-                            <a href="#">
-                                <div class="icon-w">
-                                    <div class="os-icon os-icon-wallet-loaded"></div>
-                                </div><span>Asset Management System</span></a>
-                            <div class="sub-menu-w">
-                                <div class="sub-menu-header">Asset Management System</div>
-                                <div class="sub-menu-icon"><i class="os-icon os-icon-wallet-loaded"></i></div>
-                                <div class="sub-menu-i">
-                                    <ul class="sub-menu">
-                                    <li><a href="add_assets.php">Add Asset</a></li>
-                                         <li><a href="assets_list.php">Asset List</a></li>
-                                        <li><a href="emp_assign_assets.php">Assign Employee Asset</a></li>  
-
-                                    </ul>
-                                </div>
-                            </div>
-                        </li> -->
+ 
                     </ul>
                     <?php     
  }

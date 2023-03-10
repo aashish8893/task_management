@@ -5,23 +5,21 @@ $msg = '';
 $AppCodeObj = new databaseSave();
 
 if (isset($_POST['submit'])) {
-
-    $user_id = $_SESSION['user'];
-    
+    $user_id = $_SESSION['user'];    
     $taskname = $_POST['project_name'];
+    $projectLocation = $_POST['project_location'];
+    $clientName = $_POST['client_name'];
     $budget = $_POST['budget'];
     $tsdate = $_POST['target_start_date'];
     $tedate = $_POST['target_end_date'];
     $status = $_POST['status'];
     $description = $_POST['description'];
-    $query = "INSERT INTO `project_master` (`id`, `name`, `description`, `user_type`, `project_budget`, `target_start_date`, `target_end_date`,  `status`, `created_by`) VALUES (NULL, '$taskname',  '$description', $user_id, $budget, '$tsdate', '$tedate', '$status', $user_id)";
-   
-    $res = mysqli_query($connection, $query);
-    
+    $query = "INSERT INTO `project_master` (`id`, `name`, `description`, `user_type`, `project_location`, `client_name`, `project_budget`, `target_start_date`, `target_end_date`,  `status`, `created_by`)
+    VALUES (NULL, '$taskname',  '$description', $user_id, $projectLocation, $clientName, $budget, '$tsdate', '$tedate', '$status', $user_id)";   
+    $res = mysqli_query($connection, $query);    
     if (!$res) {
         die('QUERY FAILD' . mysqli_error($connection));
-    } else {       
-
+    } else {
         echo "<script>location.replace('./../management_system/project_list.php');</script>";
         //header("Location: ./project_list.php");
         //header("Location: https://www.geeksforgeeks.org");
@@ -74,6 +72,22 @@ END - Breadcrumbs
                         </div>
                         <div class="col-sm-1">                            
                         </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-sm-1">                            
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group"><label for="">Project Location</label>                                
+                                <input type="text" id="project_location" name="project_location" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group"><label for="">Client Name</label>                                
+                                <input type="text" id="client_name" name="client_name" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-sm-1"></div>
                     </div>
 
                     <div class="row">
