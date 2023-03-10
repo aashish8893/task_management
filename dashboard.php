@@ -1,5 +1,4 @@
 <?php
-
     include './includes/admin_header.php';
     $msg = '';
     if (isset($_GET['UserID']) && isset($_GET['Status'])) {
