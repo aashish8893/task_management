@@ -107,6 +107,7 @@ END - Breadcrumbs
     </div>
 </div>
 </div>
+
 <?php include './includes/Plugin.php'; ?>
 <?php include './includes/admin_footer.php'; ?>
                                 
