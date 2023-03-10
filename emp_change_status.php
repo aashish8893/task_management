@@ -1,44 +1,57 @@
 <?php
-include './includes/admin_header.php';
-include './includes/data_base_save_update.php';
-$msg = '';
-$AppCodeObj = new databaseSave();
-if (isset($_POST['submit'])) {
-    $emp_id = $_SESSION['user'];
-    $task_id = $_GET['task_id'];
-    // $employee_id =$emp_id; 
-    $status = $_POST['status'];
-    $remark = $_POST['remark'];
-    //$status  = $_POST['status'];
-//    $query = "INSERT INTO `assign_task`( `emp_id`, `task`, `assignby`, `task_doc`, `work_assign_date`, `status`)";
-//     $query .= " VALUES ('$employee_id','$task','Employee','$task_doc',now(),'Open')";
 
-//UPDATE `assign_task` SET `status`='Open', `remark` = '1' WHERE `assign_task`.`task_id` = 3 and `assign_task`.`emp_id` = 7
+    include './includes/admin_header.php';
+    include './includes/data_base_save_update.php';
+    $msg = '';
+    $AppCodeObj = new databaseSave();
+    if (isset($_POST['submit'])) {
+        $emp_id = $_SESSION['user'];
+        $task_id = $_GET['task_id'];
+        $status = $_POST['status'];
+        
+        if($status === "Open"){
+            $status = '1';
+        }
+        if($status === "Close"){
+            $status = '2';
+        }
+        if($status === "WIP"){
+            $status = '3';
+        }
+        if($status === "Cancel"){
+            $status = '4';
+        }
+        $remark = $_POST['remark'];
+        $query = "UPDATE `assign_task` SET ";
+        if ($status=='Close') {
+            $query .= "`work_com_date`=now(),";
+        }
+        $query .= "`status`='$status',";
+        $query .= "`remark`='$remark' WHERE `assign_task`.`task_id`=$task_id and `assign_task`.`emp_id`=$emp_id";
+        $update_password = mysqli_query($connection, $query);
+        if (!$update_password) {
+            die('QUERY FAILD change pashword' . mysqli_error($connection));
+        } else {
 
-$query = "UPDATE `assign_task` SET ";
-//                  $query .=  "`task_id`='',";
-//                  $query .=  "`emp_id`='',";
-    //   $query .=  "`task`='',";
-    //    $query .=  "`assignby`='',";
-    //   $query .=  "`task_doc`='',";
-    //    $query .=  "`work_assign_date`='',";
-    if ($status=='Close') {
-        $query .= "`work_com_date`=now(),";
+            echo "<script>window.location.href='task_assign_list_cancel.php';</script>";
+            // return 'pass';
+        }
     }
-
-    $query .= "`status`='$status',";
-    $query .= "`remark`='$remark' WHERE `assign_task`.`task_id`=$task_id and `assign_task`.`emp_id`=$emp_id";
+    // $status  = $_POST['status'];
+    // $query = "INSERT INTO `assign_task`( `emp_id`, `task`, `assignby`, `task_doc`, `work_assign_date`, `status`)";
+    // $query .= " VALUES ('$employee_id','$task','Employee','$task_doc',now(),'Open')";
+    // UPDATE `assign_task` SET `status`='Open', `remark` = '1' WHERE `assign_task`.`task_id` = 3 and `assign_task`.`emp_id` = 7
+    
+    // $query .=  "`task_id`='',";
+    // $query .=  "`emp_id`='',";
+    // $query .=  "`task`='',";
+    // $query .=  "`assignby`='',";
+    // $query .=  "`task_doc`='',";
+    // $query .=  "`work_assign_date`='',";
+   
 
     
-    $update_password = mysqli_query($connection, $query);
-    if (!$update_password) {
-        die('QUERY FAILD change pashword' . mysqli_error($connection));
-    } else {
 
-        echo "<script>window.location.href='task_assign_list_cancel.php';</script>";
-        // return 'pass';
-    }
-}
 ?>
 <!--------------------
 START - Breadcrumbs
@@ -62,11 +75,8 @@ END - Breadcrumbs
                     </div>  
                 </div>
                 <form class="container" action="#" method="post" enctype="multipart/form-data">
-
-
+                    
                     <div class="row">
-
-
                         <div class="col-sm-3">
                             <div class="form-group"><label for="">Change Status</label>
                                 <select name="status" class="form-control" >
@@ -87,17 +97,9 @@ END - Breadcrumbs
                             <div class="form-group">
                                 <br>
                                 <input class="btn btn-primary" type="submit" value="Change Status" name="submit">
-                                <!--<label for="">Conform Password</label>-->
-                                <!--<input class="form-control" name="CPSWD" placeholder="Conform Password" type="password">-->
+                              
                             </div>
-                        </div>
-
-
-
-
-                        <!--                                <div class="form-buttons-w text-right">
-                                                            <input class="btn btn-primary" type="submit" value="Change Password" name="submit">
-                                                        </div>-->
+                        </div>                    
                     </div>
                 </form>
             </div>

@@ -47,7 +47,7 @@ END - Breadcrumbs
                             <?php
                                 $qry = mysqli_query($connection, "SELECT t1.*, t2.emp_name FROM assign_task as t1
                                 JOIN emp_login as t2 ON t2.id = t1.emp_id
-                                where t1.status='Close' order by t1.work_assign_date desc");
+                                where t1.status=2 order by t1.work_assign_date desc");
                                 $count = 0;
                                 while ($row = mysqli_fetch_assoc($qry)) {
                                 $count = $count + 1;
@@ -81,13 +81,8 @@ END - Breadcrumbs
                                 </td> 
                                 <td><?php echo $work_assign_date;?></td> 
                                 <td><?php echo $work_com_date;?></td> 
-                                <td><a href="#" class="btn btn-success"> <?php echo $status;?></a> <br><?php //echo $remark;?></td> 
-                                
-                                <!--    <td> <img src="user_profile/<?php echo $emp_pro;?>" height="80px" width="80px"></td> 
-                                <td><?php echo $created;?></td> 
-                                <td><a href="employee.php?id=<?php echo $row['task_id']; ?>&Status=<?php echo $row['status']; ?>" class="<?php echo $btnClass; ?> " ><?php echo $status; ?></a></td>
-                                <td><a class="btn btn-primary" href="employee.php?source=update_emp&emp_id=<?php echo $id;?>">Edit</a></td>-->
-                                
+                                <td><a href="#" class="btn btn-success">Close</a> <br><?php //echo $remark;?></td> 
+                              
                                 <td><a class="btn btn-danger" href="emp_change_status.php?task_id=<?php echo $task_id;?>">Change Status</a></td>
                             </tr>
                             <?php }?>

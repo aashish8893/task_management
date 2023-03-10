@@ -104,7 +104,19 @@ END - Breadcrumbs
                                 </td>
                                 <td><?php echo $row['work_assign_date'];?></td> 
                                 <td><?php echo $row['work_com_date'];?></td>
-                                <td><a href="#" class="btn btn-success"> <?php echo $row['status'];?></a> <br><?php echo $remark;?></td> 
+                                <td><a href="#" class="btn btn-success">
+                                    <?php
+                                    if($row['status'] == 1){
+                                        echo "Open";
+                                    }elseif($row['status'] == 2){
+                                        echo "Close";
+                                    }elseif($row['status'] == 3){
+                                        echo "WIP";
+                                    }else{
+                                        echo "Cancel";
+                                    }                             
+                                    ?></a> <br><?php echo $remark;?>
+                                </td> 
                             </tr>
 
                             <?php }  ?>

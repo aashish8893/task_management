@@ -69,7 +69,7 @@ END - Breadcrumbs
                             <?php
                                 $qry = mysqli_query($connection, "SELECT t1.*, t2.emp_name FROM assign_task as t1
                                 JOIN emp_login as t2 ON t2.id = t1.emp_id
-                                where t1.status='Cancel' order by t1.work_assign_date desc");
+                                where t1.status=4 order by t1.work_assign_date desc");
                                 $count = 0;
                                 while ($row = mysqli_fetch_assoc($qry)) {
                                 $count = $count + 1;
@@ -105,7 +105,7 @@ END - Breadcrumbs
                                 </td> 
                                 <td><?php echo $work_assign_date;?></td> 
                                 <td><?php echo $work_com_date;?></td> 
-                                <td><a href="#" class="btn btn-success"> <?php echo $status;?></a> <br><?php //echo $remark;?></td> 
+                                <td><a href="#" class="btn btn-success">Cancel</a> <br><?php //echo $remark;?></td> 
                                 <td><a class="btn btn-danger" href="emp_change_status.php?task_id=<?php echo $task_id;?>">Change Status</a></td>
                             </tr>
                                 <?php }?>

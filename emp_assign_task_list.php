@@ -6,7 +6,7 @@ $app_code_obj=new getData();
 $msg = '';
 $AppCodeObj = new databaseSave();
 if (isset($_POST['submit'])) {
-  //  $msg = $AppCodeObj->Insert_pan_data("pan_mst");
+//    $msg = $AppCodeObj->Insert_pan_data("pan_mst");
 //    $userID = $_SESSION['user'];
 //    $NewPSWD = $_POST['NewPSWD'];
 //    $oldPSWD = $_POST['oldPSWD'];
@@ -15,10 +15,10 @@ if (isset($_POST['submit'])) {
     move_uploaded_file($task_doc_temp, "task_doc/$task_doc");
     
     $employee_id = $_POST['empid'];
-           $task  = $_POST['task'];
-           //  = $_POST['file_attachment'];
+    $task  = $_POST['task'];
+//    $_POST['file_attachment'];
     $query = "INSERT INTO `assign_task`( `emp_id`, `task`, `assignby`, `task_doc`, `work_assign_date`, `status`)";
-     $query .= " VALUES ('$employee_id','$task','Admin','$task_doc',now(),'Open')";
+    $query .= " VALUES ('$employee_id','$task','Admin','$task_doc',now(),'Open')";
     $update_password = mysqli_query($connection, $query);
     if (!$update_password) {
         die('QUERY FAILD change pashword' . mysqli_error($connection));
@@ -51,31 +51,31 @@ END - Breadcrumbs
                                 </div>  
                             </div>
                                 <div class="element-box">
-   <table id="example" style="width: 100%; display:inline-table;" class="display table table-bordered table-responsive" style="width:100%">
+   <table id="example" style="width: 100%;" class="display table table-bordered table-responsive" style="width:100%">
         <thead>
-            <tr>
-                <th>S No.</th>
-                <th>Employee Name</th>
-                <th>Project Name</th>
-                <th>Task</th>
-                <th>Assign By</th>
-                <th>Download File</th>
-                <th>Assign Work Date</th>
-                <th>Work Complete Date</th>
-                <th>Status</th>
-                <th>Delete</th>
-            </tr>
-        </thead>   
+                    <tr>
+                        <th>S No.</th>
+                        <th>Employee Name</th>
+                        <th>Task</th>
+                        <th>Assign By</th>
+                        <th>Download File</th>
+                        <th>Assign Work Date</th>
+                        <th>Work Complete Date</th>
+                        <th>Status</th>
+                              
+                       <th>Change Status/Transfer Task</th>
+                    </tr>
+        </thead>
         <tbody>
             <?php
-                $qry = mysqli_query($connection, "SELECT t1.*, t2.emp_name FROM assign_task as t1
-                JOIN emp_login as t2 ON t2.id = t1.emp_id
-                where t1.status= 1 order by t1.work_assign_date desc");
+                $emp_id=  $_SESSION['user'];
+                $qry = mysqli_query($connection, "SELECT * FROM assign_task where emp_id='$emp_id' order by work_assign_date desc");
                 $count = 0;
                 while ($row = mysqli_fetch_assoc($qry)) {
-                $count = $count + 1;
+                $count = $count + 1;  
+
                 $task_id = $row['task_id'];
-                $emp_id = $row['emp_id']; 
+                $emp_id1 = $row['emp_id']; 
                 $task = $row['task'];
                 $assignby = $row['assignby'];
                 $task_doc = $row['task_doc'];
@@ -84,33 +84,35 @@ END - Breadcrumbs
                 $status  = $row['status'];
                 $remark  = $row['remark'];
             ?>
-            <tr>
-                <td><?php echo $count;?></td>
-                <td> <?php echo ucfirst($row['emp_name']);?></td>
-                <td>
-                    <?php 
-                        $res = mysqli_query($connection, $app_code_obj->projectIdbyProjectName($row['project_id']));
-                        $res = mysqli_fetch_assoc($res);
-                        print_r($res['name']);
-                    ?>
-                </td>
-                <td><?php echo $task;?></td>
-                <td><?php echo $assignby;?></td> 
-
-                <td>
-                <?php if($task_doc !='')
-                {?>
-                <a href="task_doc/<?php echo $task_doc;?>" class="btn btn-primary">Download</a>  
-                <?php }?>
-                </td>
-
-                <td><?php echo $work_assign_date;?></td> 
-                <td><?php echo $work_com_date;?></td> 
-                <td><a href="#" class="btn btn-success"> Open</a> <br><?php //echo $remark;?></td>
-                <td><a class="btn btn-danger" href="employee.php?delete=<?php echo $task_id;?>">Delete</a></td>
-            </tr>
-<?php }?>
-        </tbody>  </table>
+        <tr>
+            <td><?php echo $count;?></td>
+            <td>
+                <?php
+                $res = mysqli_query($connection, $app_code_obj->userIdbyUserName($emp_id1));
+                $res = mysqli_fetch_assoc($res);
+                print_r($res['emp_name']);
+                ?>
+            </td>
+            <td><?php echo $task;?></td>
+            <td><?php echo $assignby;?></td> 
+            <td>
+            <?php if($task_doc !='')
+            {?>
+            <a href="task_doc/<?php echo $task_doc;?>" class="btn btn-primary">Download</a>  
+            <?php }?>
+            </td> 
+            <td><?php echo $work_assign_date;?></td> 
+            <td><?php echo $work_com_date;?></td> 
+            <td><a href="#" class="btn btn-success"> <?php echo $status;?></a> <br><?php echo $remark;?></td> 
+            <td>
+            <a style="width: 100%;" class="btn btn-danger" href="emp_change_status.php?task_id=<?php echo $task_id;?>">Change Status</a>
+            <br>
+            <br>
+            <a style="width: 100%;" class="btn btn-danger" href="tran_assign_task.php?task_id=<?php echo $task_id;?>">Transfer Task</a>
+            </td>
+        </tr>
+        <?php }?>
+        </tbody> </table>
    </div>
                             </div>
            
@@ -123,7 +125,7 @@ END - Breadcrumbs
                                 
 <?php include './includes/Plugin.php'; ?>
         <?php include './includes/admin_footer.php'; ?>
-               <script>
+                                <script>
 $(document).ready(function() {
     $('#example').DataTable( {
         dom: 'Bfrtip',
@@ -132,4 +134,4 @@ $(document).ready(function() {
         ]
     } );
 } );
-        </script>                    
+        </script>                 
