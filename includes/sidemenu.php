@@ -190,7 +190,8 @@
                 <div class="menu-w color-scheme-light color-style-transparent menu-position-side menu-side-left menu-layout-compact sub-menu-style-over sub-menu-color-bright selected-menu-color-light menu-activated-on-hover menu-has-selected-link">
                     <div class="logo-w">
                         <a class="logo" href="#">
-                            <div class="logo-element"></div>
+                            <img src="https://parityinfotech.in/wp-content/uploads/2022/03/t2-1.png" alt="" srcset="" style="height:30px; width:80px">
+                            <!-- <div class="logo-element"></div> -->
                             <div class="logo-label">Task Management</div>
                         </a>
                     </div>

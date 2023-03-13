@@ -4,34 +4,27 @@ include './includes/data_base_save_update.php';
 $msg = '';
 $AppCodeObj = new databaseSave();
 if (isset($_POST['submit'])) {
-
-    // echo "<pre>";
-    // print_r($_POST);
-    // exit();
-  //  $msg = $AppCodeObj->Insert_pan_data("pan_mst");
-//    $userID = $_SESSION['user'];
-//    $NewPSWD = $_POST['NewPSWD'];
-//    $oldPSWD = $_POST['oldPSWD'];
     $project = $_POST['project'];
+    $projectp = $_POST['project_phase'];
     $task_doc = $_FILES['file_attachment']['name'];
     $task_doc_temp = $_FILES['file_attachment']['tmp_name'];
-    move_uploaded_file($task_doc_temp, "task_doc/$task_doc");
-    
+    move_uploaded_file($task_doc_temp, "task_doc/$task_doc");    
     $employee_id = $_POST['empid'];
     $task  = $_POST['task'];
     $start_date  = $_POST['start_date'];
     $end_date  = $_POST['end_date'];
-    //  = $_POST['file_attachment'];
-    $query = "INSERT INTO `assign_task`( `emp_id`, `task`, `assignby`, `task_doc`, `work_assign_date`, `work_com_date`,`project_id`,`status`)";
-     $query .= " VALUES ('$employee_id','$task','Admin','$task_doc','$start_date','$end_date','$project','Open')";
-    $update_password = mysqli_query($connection, $query);
-    if (!$update_password) {
-        die('QUERY FAILD change pashword' . mysqli_error($connection));
-    } else {
-
-        echo "<script>alert('Record Save Successfully');</script>";
-       // return 'pass';
-    }
+    //  = $_POST['file_attachment'];   
+        $query = "INSERT INTO `assign_task`( `emp_id`, `task`, `assignby`, `task_doc`, `work_assign_date`, `work_com_date`,`project_id`, `project_phase_id`,`status`)";
+        $query .= " VALUES ('$employee_id','$task','Admin','$task_doc','$start_date','$end_date','$project', '$projectp','1')";
+        $update_password = mysqli_query($connection, $query);
+        if (!$update_password) {
+            die('QUERY FAILD change pashword' . mysqli_error($connection));
+        } else {        
+            if($_POST['project'] AND $_POST['task']){
+                echo "<script>location.replace('./../task_management/task_assign_list.php');</script>";
+                ///echo "<script>alert('Record Save Successfully');</script>";
+            }            
+        }   
 }
 ?>
 <!--------------------
@@ -56,110 +49,138 @@ END - Breadcrumbs
                                 </div>  
                             </div>
                                   <form class="container" action="#" method="post" enctype="multipart/form-data">
+</br>
+                                    <div class="row">
+                                        <div class="col-sm-1"></div>
 
+                                            <!--                          
+                                            <fieldset class="col-md-12">
+                                            <legend>Company Details
+                                            <hr></legend>
+                                            </fieldset>-->
 
-                            <div class="row">
+                                        <div class="col-sm-3">
+                                            <div class="form-group"><label for="">Employee</label>
+                                                <select id="emp_id" name="empid" class="form-control">
+                                                    <option value="">--select employee</option>
+                                                    <?php
+                                                        $qry = mysqli_query($connection, "SELECT * FROM emp_login where user_role='employee' and status='1'");
+                                                        $count = 0;
+                                                        while ($row = mysqli_fetch_assoc($qry)) {
+                                                            $count = $count + 1;
+                                                            $id = $row['id'];
+                                                            $emp_code = $row['emp_code'];
+                                                            $emp_name = $row['emp_name'];
+                                                            echo "<option value=".$id.">".$emp_code."/".$emp_name."</option>";
+                                                        }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                        </div>
 
-                            <!--                          
-                                <fieldset class="col-md-12">
-                                    <legend>Company Details
-                                        <hr></legend>
-                                </fieldset>-->
+                                        <div class="col-sm-3">
+                                            <div class="form-group"><label for="">Project</label>
+                                                <select id="project" name="project" class="form-control">
+                                                    <option value="">--select project</option>
+                                                    <?php
+                                                        $qry = mysqli_query($connection, "SELECT t1.name, t1.id FROM `project_master` as t1 where status IN ('1','2')");
+                                                        $count = 0;
+                                                        while ($row = mysqli_fetch_assoc($qry)) {
+                                                            $count = $count + 1;
 
-                                <div class="col-sm-3">
-                                    <div class="form-group"><label for="">Employee</label>
-                                        <select id="emp_id" name="empid" class="form-control">
-                                            <option>--select employee</option>
-                                            <?php
-                                                $qry = mysqli_query($connection, "SELECT * FROM emp_login where user_role='employee' and status='1'");
-                                                $count = 0;
-                                                while ($row = mysqli_fetch_assoc($qry)) {
-                                                    $count = $count + 1;
+                                                            $id = $row['id'];
+                                                            $emp_code = $row['name'];
 
-                                                    $id = $row['id'];
-                                                    $emp_code = $row['emp_code'];
-                                                    $emp_name = $row['emp_name'];
-
-                                                    echo "<option value=".$id.">".$emp_code."/".$emp_name."</option>";
-                                                }
-                                            ?>
-                                        </select>
+                                                            echo "<option class='project' value=".$id.">".$emp_code."</option>";
+                                                        }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-1"></div>
                                     </div>
-                                </div>
-
-                                <div class="col-sm-3">
-                                    <div class="form-group"><label for="">Project</label>
-                                        <select id="project" name="project" class="form-control">
-                                            <option>--select project</option>
-                                            <?php
-                                                $qry = mysqli_query($connection, "SELECT t1.name, t1.id FROM `project_master` as t1 where status IN ('1','2')");
-                                                $count = 0;
-                                                while ($row = mysqli_fetch_assoc($qry)) {
-                                                    $count = $count + 1;
-
-                                                    $id = $row['id'];
-                                                    $emp_code = $row['name'];
-
-                                                    echo "<option class='project' value=".$id.">".$emp_code."</option>";
-                                                }
-                                            ?>
-                                        </select>
-                                    </div>
-                                </div>
-                                <!-- <div class="col-sm-3">
-                                    <div class="form-group"><label for="">Site Id</label>
-                                        <input class="form-control" name="task" placeholder="Enter Task" type="text">
-                                    </div>
-                                </div>disabled -->
-                                    <div class="form-group"><label for="">Task</label>
-                                        <select id="status" name="task" class="form-control">
-                                            <option value="">---select Task---</option>           
-                                            <?php
-                                                $qry = mysqli_query($connection, "SELECT * FROM `task_master`");
-                                                $count = 0;
-                                                while ($row = mysqli_fetch_assoc($qry)) {
-                                                    $count = $count + 1;
-                                                    //echo $row['name'];
-                                                    echo "<option value=".$row['name'].">".$row['name']."</option>";
-                                                }
-                                            ?>
-                                        </select>
-                                    </div>
-                                </div>
                                 <div class="row">
-			<div class="col-md-6">
-            <div class="form-group">
-              <label for="" class="control-label">Start Date</label>
-              <input type="date" class="form-control form-control-sm" autocomplete="off" name="start_date" value="<?php echo isset($start_date) ? date("Y-m-d",strtotime($start_date)) : '' ?>">
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="" class="control-label">End Date</label>
-              <input type="date" class="form-control form-control-sm" autocomplete="off" name="end_date" value="<?php echo isset($end_date) ? date("Y-m-d",strtotime($end_date)) : '' ?>">
-            </div>
-          </div>
-		</div>
-  <div class="col-sm-3">
-                                    <div class="form-group"><label for="">File Attachment</label>
-                                        <input name="file_attachment" type="file">
+                                    <div class="col-sm-1"></div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group"><label for="">Project Phase</label>
+                                            <select id="project_phase" name="project_phase" class="form-control">
+                                                <option value="">--select project</option>
+                                                <?php
+                                                    $qry = mysqli_query($connection, "SELECT * FROM `project_phase_master` WHERE status =1");
+                                                    $count = 0;
+                                                    while ($row = mysqli_fetch_assoc($qry)) {
+                                                        $count = $count + 1;
+
+                                                        $id = $row['id'];
+                                                        $emp_code = ucfirst($row['name']);
+
+                                                        echo "<option class='project_phase' value=".$id.">".$emp_code."</option>";
+                                                    }
+                                                ?>
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <br>
-                                         <input class="btn btn-primary" type="submit" value="Assign Task" name="submit">
-                                        <!--<label for="">Conform Password</label>-->
-                                        <!--<input class="form-control" name="CPSWD" placeholder="Conform Password" type="password">-->
+
+                                    <div class="col-sm-3">
+                                        <div class="form-group"><label for="">Task</label>
+                                            <select id="status" name="task" class="form-control">
+                                                <option value="">---select Task---</option>           
+                                                <?php
+                                                    $qry = mysqli_query($connection, "SELECT * FROM `task_master`");
+                                                    $count = 0;
+                                                    while ($row = mysqli_fetch_assoc($qry)) {
+                                                        $count = $count + 1;
+                                                        //echo $row['name'];
+                                                        echo "<option value=".$row['name'].">".$row['name']."</option>";
+                                                    }
+                                                ?>
+                                            </select>
+                                        </div>
                                     </div>
+                                    <div class="col-sm-1"></div>
                                 </div>
 
+                                <div class="row">
+                                    <div class="col-sm-1"></div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group"><label for="">Start Date</label>
+                                            <input name="start_date" autocomplete="off" type="date" value="<?php echo isset($start_date) ? date("Y-m-d",strtotime($start_date)) : '' ?>">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group"><label for="">End Date</label>
+                                            <input name="end_date" autocomplete="off" type="date" value="<?php echo isset($end_date) ? date("Y-m-d",strtotime($end_date)) : '' ?>">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-1"></div>
+                                </div>
 
+                                <div class="row">
+                                    <div class="col-sm-1"></div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group"><label for="">File Attachment</label>
+                                            <input name="file_attachment" type="file">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        
+                                    </div>
+                                    <div class="col-sm-1"></div>
+                                </div>
 
-
-<!--                                <div class="form-buttons-w text-right">
-                                    <input class="btn btn-primary" type="submit" value="Change Password" name="submit">
-                                </div>-->
+                                <div class="row">
+                                    <div class="col-sm-1"></div>
+                                        <div class="col-sm-3">
+                                        <div class="form-group">
+                                                <br>
+                                                <input class="btn btn-primary" type="submit" value="submit" name="submit">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            
+                                        </div>
+                                    </div>
+                                </div> 
                             </div>
                         </form>
                             </div>

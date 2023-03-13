@@ -115,7 +115,7 @@ END - Breadcrumbs
                                     }else{
                                         echo "Cancel";
                                     }                             
-                                    ?></a> <br><?php echo $remark;?>
+                                    ?></a> <br><?php //echo $remark;?>
                                 </td> 
                             </tr>
 

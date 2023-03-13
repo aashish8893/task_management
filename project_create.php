@@ -4,7 +4,7 @@ include './includes/data_base_save_update.php';
 $msg = '';
 $AppCodeObj = new databaseSave();
 
-if (isset($_POST['submit'])) {
+if (isset($_POST['submit'])) {    
     $user_id = $_SESSION['user'];    
     $taskname = $_POST['project_name'];
     $projectLocation = $_POST['project_location'];
@@ -15,12 +15,15 @@ if (isset($_POST['submit'])) {
     $status = $_POST['status'];
     $description = $_POST['description'];
     $query = "INSERT INTO `project_master` (`id`, `name`, `description`, `user_type`, `project_location`, `client_name`, `project_budget`, `target_start_date`, `target_end_date`,  `status`, `created_by`)
-    VALUES (NULL, '$taskname',  '$description', $user_id, $projectLocation, $clientName, $budget, '$tsdate', '$tedate', '$status', $user_id)";   
-    $res = mysqli_query($connection, $query);    
+    VALUES (NULL, '$taskname',  '$description', $user_id, '$projectLocation', '$clientName', $budget, '$tsdate', '$tedate', '$status', $user_id)";   
+    
+
+    $res = mysqli_query($connection, $query);  
+      
     if (!$res) {
         die('QUERY FAILD' . mysqli_error($connection));
     } else {
-        echo "<script>location.replace('./../management_system/project_list.php');</script>";
+        echo "<script>location.replace('./../task_management/project_list.php');</script>";
         //header("Location: ./project_list.php");
         //header("Location: https://www.geeksforgeeks.org");
         //exit;

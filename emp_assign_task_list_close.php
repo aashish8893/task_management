@@ -18,7 +18,7 @@ if (isset($_POST['submit'])) {
            $task  = $_POST['task'];
            //  = $_POST['file_attachment'];
     $query = "INSERT INTO `assign_task`( `emp_id`, `task`, `assignby`, `task_doc`, `work_assign_date`, `status`)";
-     $query .= " VALUES ('$employee_id','$task','Admin','$task_doc',now(),'Open')";
+     $query .= " VALUES ('$employee_id','$task','Admin','$task_doc',now(),'1')";
     $update_password = mysqli_query($connection, $query);
     if (!$update_password) {
         die('QUERY FAILD change pashword' . mysqli_error($connection));
@@ -56,6 +56,8 @@ END - Breadcrumbs
             <tr>
                 <th>S No.</th>
                 <th>Employee Name</th>
+                <th>Project Name</th>
+                <th>Project Phase</th>
                 <th>Task</th>
                 <th>Assign By</th>
                 <th>Download File</th>
@@ -84,7 +86,24 @@ END - Breadcrumbs
     ?>
     <tr>
         <td><?php echo $count;?></td>
-        <td> <?php echo $app_code_obj->userIdbyUserName($emp_id1);?></td>
+        <td> <?php            
+            $query = $app_code_obj->userIdbyUserName($emp_id1);
+            $res = mysqli_query($connection, $query);
+            $res = mysqli_fetch_assoc($res);
+            print_r($res['emp_name']);            
+            ?></td>
+            <td> <?php            
+            $query = $app_code_obj->projectIdbyProjectName($emp_id1);
+            $res = mysqli_query($connection, $query);
+            $res = mysqli_fetch_assoc($res);
+            print_r($res['name']);            
+            ?></td>
+            <td> <?php            
+            $query = $app_code_obj->projectpIdbyProjectName($emp_id1);
+            $res = mysqli_query($connection, $query);
+            $res = mysqli_fetch_assoc($res);
+            print_r($res['name']);            
+            ?></td>
         <td><?php echo $task;?></td>
         <td><?php echo $assignby;?></td> 
         <td>
@@ -94,7 +113,19 @@ END - Breadcrumbs
         </td> 
         <td><?php echo $work_assign_date;?></td> 
         <td><?php echo $work_com_date;?></td> 
-        <td><a href="#" class="btn btn-success"> <?php echo $status;?></a> <br><?php echo $remark;?></td> 
+        <td><a href="#" class="btn btn-success"> 
+                <?php
+                    if($status == 1){
+                    echo "Open";
+                    }elseif($status == 2){
+                    echo "Close";
+                    }elseif($status == 3){
+                    echo "WIP";
+                    }else{
+                    echo "Cancel";
+                    }
+                ?>
+                </a> <br><?php //echo $remark;?></td> 
         <td>
             <a style="width: 100%;" class="btn btn-danger" href="emp_change_status.php?task_id=<?php echo $task_id;?>">Change Status</a>
             <br>

@@ -33,7 +33,7 @@
             die('QUERY FAILD change pashword' . mysqli_error($connection));
         } else {
 
-            echo "<script>window.location.href='task_assign_list_cancel.php';</script>";
+            echo "<script>window.location.href='emp_assign_task_list.php';</script>";
             // return 'pass';
         }
     }

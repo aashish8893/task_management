@@ -6,17 +6,13 @@ $app_code_obj=new getData();
 $msg = '';
 $AppCodeObj = new databaseSave();
 if (isset($_POST['submit'])) {
-//    $msg = $AppCodeObj->Insert_pan_data("pan_mst");
-//    $userID = $_SESSION['user'];
-//    $NewPSWD = $_POST['NewPSWD'];
-//    $oldPSWD = $_POST['oldPSWD'];
     $task_doc = $_FILES['file_attachment']['name'];
     $task_doc_temp = $_FILES['file_attachment']['tmp_name'];
     move_uploaded_file($task_doc_temp, "task_doc/$task_doc");
     
     $employee_id = $_POST['empid'];
     $task  = $_POST['task'];
-//    $_POST['file_attachment'];
+    // $_POST['file_attachment'];
     $query = "INSERT INTO `assign_task`( `emp_id`, `task`, `assignby`, `task_doc`, `work_assign_date`, `status`)";
     $query .= " VALUES ('$employee_id','$task','Admin','$task_doc',now(),'Open')";
     $update_password = mysqli_query($connection, $query);
@@ -45,93 +41,113 @@ END - Breadcrumbs
         <div class="element-wrapper">
             <div class="element-box">
 
-                            <div class="row">
-                                 <div class="col-md-12">
-                                    <h5 style="color: blue;border-bottom: 1px solid blue;padding: 10px;">Assign Task List</h5>                                   
-                                </div>  
-                            </div>
-                                <div class="element-box">
-   <table id="example" style="width: 100%;" class="display table table-bordered table-responsive" style="width:100%">
-        <thead>
-                    <tr>
-                        <th>S No.</th>
-                        <th>Employee Name</th>
-                        <th>Task</th>
-                        <th>Assign By</th>
-                        <th>Download File</th>
-                        <th>Assign Work Date</th>
-                        <th>Work Complete Date</th>
-                        <th>Status</th>
-                              
-                       <th>Change Status/Transfer Task</th>
-                    </tr>
-        </thead>
-        <tbody>
-            <?php
-                $emp_id=  $_SESSION['user'];
-                $qry = mysqli_query($connection, "SELECT * FROM assign_task where emp_id='$emp_id' order by work_assign_date desc");
-                $count = 0;
-                while ($row = mysqli_fetch_assoc($qry)) {
-                $count = $count + 1;  
-
-                $task_id = $row['task_id'];
-                $emp_id1 = $row['emp_id']; 
-                $task = $row['task'];
-                $assignby = $row['assignby'];
-                $task_doc = $row['task_doc'];
-                $work_assign_date = $row['work_assign_date'];
-                $work_com_date = $row['work_com_date'];
-                $status  = $row['status'];
-                $remark  = $row['remark'];
-            ?>
-        <tr>
-            <td><?php echo $count;?></td>
-            <td>
+                <div class="row">
+                        <div class="col-md-12">
+                        <h5 style="color: blue;border-bottom: 1px solid blue;padding: 10px;">Assign Task List</h5>                                   
+                    </div>  
+                </div>
+            <div class="element-box">
+        <table id="example" style="width: 100%;" class="display table table-bordered table-responsive" style="width:100%">
+            <thead>
+                        <tr>
+                            <th>S No.</th>
+                            <th>Employee Name</th>
+                            <th>Project Name</th>
+                            <th>Task</th>
+                            <th>Assign By</th>
+                            <th>Download File</th>
+                            <th>Assign Work Date</th>
+                            <th>Work Complete Date</th>
+                            <th>Status</th>                              
+                        <th>Change Status/Transfer Task</th>
+                        </tr>
+            </thead>
+            <tbody>
                 <?php
-                $res = mysqli_query($connection, $app_code_obj->userIdbyUserName($emp_id1));
-                $res = mysqli_fetch_assoc($res);
-                print_r($res['emp_name']);
+                    $emp_id=  $_SESSION['user'];
+                    $qry = mysqli_query($connection, "SELECT * FROM assign_task where emp_id='$emp_id' order by work_assign_date desc");
+                    $count = 0;
+                    while ($row = mysqli_fetch_assoc($qry)) {
+                    $count = $count + 1;
+                    $task_id = $row['task_id'];
+                    $emp_id1 = $row['emp_id']; 
+                    $task = $row['task'];
+                    $assignby = $row['assignby'];
+                    $task_doc = $row['task_doc'];
+                    $work_assign_date = $row['work_assign_date'];
+                    $work_com_date = $row['work_com_date'];
+                    $status  = $row['status'];
+                    $remark  = $row['remark'];
+                    $project_id  = $row['project_id'];
                 ?>
-            </td>
-            <td><?php echo $task;?></td>
-            <td><?php echo $assignby;?></td> 
-            <td>
-            <?php if($task_doc !='')
-            {?>
-            <a href="task_doc/<?php echo $task_doc;?>" class="btn btn-primary">Download</a>  
-            <?php }?>
-            </td> 
-            <td><?php echo $work_assign_date;?></td> 
-            <td><?php echo $work_com_date;?></td> 
-            <td><a href="#" class="btn btn-success"> <?php echo $status;?></a> <br><?php echo $remark;?></td> 
-            <td>
-            <a style="width: 100%;" class="btn btn-danger" href="emp_change_status.php?task_id=<?php echo $task_id;?>">Change Status</a>
-            <br>
-            <br>
-            <a style="width: 100%;" class="btn btn-danger" href="tran_assign_task.php?task_id=<?php echo $task_id;?>">Transfer Task</a>
-            </td>
-        </tr>
-        <?php }?>
-        </tbody> </table>
+                <tr>
+                    <td><?php echo $count;?></td>
+                    <td>
+                        <?php
+                        $res = mysqli_query($connection, $app_code_obj->userIdbyUserName($emp_id1));
+                        $res = mysqli_fetch_assoc($res);
+                        print_r($res['emp_name']);
+                        ?>
+                    </td>
+                    <td>
+                        <?php
+                            $res = mysqli_query($connection, $app_code_obj->projectIdbyProjectName($project_id));
+                            $res = mysqli_fetch_assoc($res);
+                            print_r($res['name']);
+                        ?>
+                    </td>
+                    <td><?php echo $task;?></td>
+                    <td><?php echo $assignby;?></td> 
+                    <td>
+                    <?php if($task_doc !='')
+                    {?>
+                    <a href="task_doc/<?php echo $task_doc;?>" class="btn btn-primary">Download</a>  
+                    <?php }?>
+                    </td> 
+                    <td><?php echo $work_assign_date;?></td> 
+                    <td><?php echo $work_com_date;?></td> 
+                    <td><a href="#" class="btn btn-success">
+                            <?php
+                            if($status == 1){
+                                echo "Open";
+                            }elseif($status == 2){
+                                echo "Close";
+                            }elseif($status == 3){
+                                echo "WIP";
+                            }else{
+                                echo "Cancel";
+                            }
+                            ?>
+                        </a> <br><?php //echo $remark;?></td> 
+                    <td>
+                    <a style="width: 100%;" class="btn btn-danger" href="emp_change_status.php?task_id=<?php echo $task_id;?>">Change Status</a>
+                    <br>
+                    <br>
+                    <a style="width: 100%;" class="btn btn-danger" href="tran_assign_task.php?task_id=<?php echo $task_id;?>">Transfer Task</a>
+                    </td>
+                </tr>
+                <?php }?>
+            </tbody> 
+        </table>
    </div>
-                            </div>
+</div>
            
             </div>
         </div>
     </div>
 </div>
 
-                                
-                                
+
+
 <?php include './includes/Plugin.php'; ?>
-        <?php include './includes/admin_footer.php'; ?>
-                                <script>
-$(document).ready(function() {
-    $('#example').DataTable( {
-        dom: 'Bfrtip',
-        buttons: [
-            'pdfHtml5'
-        ]
+<?php include './includes/admin_footer.php'; ?>
+<script>
+    $(document).ready(function() {
+        $('#example').DataTable( {
+            dom: 'Bfrtip',
+            buttons: [
+                'pdfHtml5'
+            ]
+        } );
     } );
-} );
-        </script>                 
+</script>                 
