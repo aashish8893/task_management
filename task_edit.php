@@ -4,20 +4,33 @@ include './includes/data_base_save_update.php';
 $msg = '';
 $AppCodeObj = new databaseSave();
 
-if (isset($_POST['submit'])) {
-   
-    $taskname = $_POST['task_name'];
-    $status = $_POST['status'];
+if (isset($_POST['update'])) {   
+    $id = $_GET['id'];
+    $taskName = $_POST['task_name'];
     $taskTime = $_POST['task_time'];
-    $query = "INSERT INTO `task_master` (`id`, `name`, `task_time`, `status`) VALUES (NULL, '$taskname', '$taskTime','$status')";
+    $status = $_POST['status'];
+
+    $query = "UPDATE `task_master` SET
+    `name` = '$taskName',
+    `task_time` = '$taskTime',
+    `status` = '$status'
+    WHERE `task_master`.`id` = $id";
+    $result = $connection->query($query);
+    echo "<script>window.location.replace('http://localhost/task_management/task_list.php')</script>";
+    echo "<script>alert('Record Save Successfully');</script>";
+    exit();
    
-    $res = mysqli_query($connection, $query);
-    
-    if (!$res) {
-        die('QUERY FAILD' . mysqli_error($connection));
-    } else {
-        echo "<script>alert('Record Save Successfully');</script>";
+}
+
+if($_GET['id']){
+    $id = $_GET['id'];
+    $query = "SELECT * FROM `task_master` where id = $id";
+    $res = mysqli_query($connection, $query);    
+    if($res->num_rows > 0){
+        $row = $res->fetch_assoc(); 
     }
+    $status = $row['status']; 
+    
 }
 ?>
 
@@ -48,12 +61,12 @@ END - Breadcrumbs
                         <div class="col-sm-1"></div>
                         <div class="col-sm-3">
                             <div class="form-group"><label for="">Task Name:</label>                                
-                                <input type="text" id="task_name" name="task_name" class="form-control" />
+                                <input type="text" value="<?php echo $row['name']; ?>" id="task_name" name="task_name" class="form-control" />
                             </div>
                         </div>
                         <div class="col-sm-3">
                             <div class="form-group"><label for="">No of Resources Required:</label>                                
-                                <input type="text" id="task_time" name="task_time" class="form-control" />
+                                <input type="text" value="<?php echo $row['task_time']; ?>" id="task_time" name="task_time" class="form-control" />
                             </div>
                             <!-- <div class="form-group"><label for="">Task Hour </label> 
                                 <label for="appt">Select a time:</label>
@@ -66,10 +79,10 @@ END - Breadcrumbs
                         <div class="col-sm-1"></div>
                         <div class="col-sm-3">
                             <div class="form-group"><label for="">Status:</label>                                
-                                <select id="status" name="status" class="form-control">
+                                <select id="status"  name="status" class="form-control">
                                     <option value="">---select status---</option>
-                                    <option value="1">Active</option>
-                                    <option value="0">Deactive</option>
+                                    <option value="1" <?php if($status == 1) echo 'selected';?>>Active</option>
+                                    <option value="0" <?php if($status == 0) echo 'selected';?>>Deactive</option>
                                 </select>
                             </div>
                         </div>
@@ -79,7 +92,7 @@ END - Breadcrumbs
                         <div class="col-sm-1"></div>
                         <div class="col-sm-1">
                             <div class="form-group"><label for=""></label>                                
-                            <input class="btn btn-primary" type="submit" name="submit" value="submit" />
+                            <input class="btn btn-primary" type="submit" name="update" value="submit" />
                             </div>
                         </div> 
                         <div class="col-sm-3"></div>
@@ -92,28 +105,28 @@ END - Breadcrumbs
     </div>
 </div>
 <script>
-	$('#manage-project').submit(function(e){
-		e.preventDefault()
-		start_load()
+	// $('#manage-project').submit(function(e){
+	// 	e.preventDefault()
+	// 	start_load()
        
-		$.ajax({
-			url:'ajax.php?action=save_project',
-			data: new FormData($(this)[0]),
-		    cache: false,
-		    contentType: false,
-		    processData: false,
-		    method: 'POST',
-		    type: 'POST',
-			success:function(resp){
-				if(resp == 1){
-					alert_toast('Data successfully saved',"success");
-					setTimeout(function(){
-						location.href = 'index.php?page=project_list'
-					},2000)
-				}
-			}
-		})
-	})
+	// 	$.ajax({
+	// 		url:'ajax.php?action=save_project',
+	// 		data: new FormData($(this)[0]),
+	// 	    cache: false,
+	// 	    contentType: false,
+	// 	    processData: false,
+	// 	    method: 'POST',
+	// 	    type: 'POST',
+	// 		success:function(resp){
+	// 			if(resp == 1){
+	// 				alert_toast('Data successfully saved',"success");
+	// 				setTimeout(function(){
+	// 					location.href = 'index.php?page=project_list'
+	// 				},2000)
+	// 			}
+	// 		}
+	// 	})
+	// })
 </script>
 
 <?php include './includes/Plugin.php'; ?>

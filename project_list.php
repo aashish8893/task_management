@@ -52,14 +52,16 @@ END - Breadcrumbs
                     </div>  
                     <div class="col-md-10">                                                               
                         </div>
-                        <div class="col-md-2"><form action="project_create.php"><button class="btn btn-primary" style="padding: 12px; margin: 0 0 0 29px;">Create Project</button></form> </div> 
+                        <div class="col-md-2"><form action="project_create.php"><button class="btn btn-primary" style="padding: 12px; margin: 0 0 0 29px;">Create Project</button></form>
+                    </div> 
                 </div>
-                <div class="element-box">
+                <div class="element-box" style="overflow: scroll;">
                     <table id="example" style="width: 100%; display: inline-table" class="display table table-bordered table-responsive" style="width:100%">
                         <thead>
                             <tr>
                                 <th>S No.</th>
-                                <th>Project Name</th>                                
+                                <th>Project Name</th>
+                                <th>Project Manager</th>                                
                                 <th>Location</th>
                                 <th>Client Name</th>
                                 <th>Description</th>
@@ -82,9 +84,10 @@ END - Breadcrumbs
                             ?>
                           <tr>
                             <td><?php echo $count; ?></td>
-                            <td><?php echo $row['name']; ?></td>
+                            <td><?php echo ucwords(strtolower($row['name'])); ?></td>
+                            <td><?php echo $row['project_manager']; ?></td>
                             <td><?php echo ucfirst($row['project_location']); ?></td> 
-                            <td><?php echo ucfirst($row['client_name']); ?></td> 
+                            <td><?php echo ucwords($row['client_name']); ?></td> 
                             <td><?php echo ucfirst($row['description']); ?></td>
                             <td><?php echo ucfirst($row['project_budget']); ?></td>
                             <td><?php echo $row['target_start_date'] ?></td>

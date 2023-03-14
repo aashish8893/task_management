@@ -58,6 +58,7 @@ END - Breadcrumbs
                             <th>Download File</th>
                             <th>Assign Work Date</th>
                             <th>Work Complete Date</th>
+                            <th>Remark</th>
                             <th>Status</th>                              
                         <th>Change Status/Transfer Task</th>
                         </tr>
@@ -106,6 +107,7 @@ END - Breadcrumbs
                     </td> 
                     <td><?php echo $work_assign_date;?></td> 
                     <td><?php echo $work_com_date;?></td> 
+                    <td><?php echo $remark;?></td>
                     <td><a href="#" class="btn btn-success">
                             <?php
                             if($status == 1){

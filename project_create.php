@@ -4,9 +4,12 @@ include './includes/data_base_save_update.php';
 $msg = '';
 $AppCodeObj = new databaseSave();
 
-if (isset($_POST['submit'])) {    
+if (isset($_POST['submit'])) {   
+
+    
     $user_id = $_SESSION['user'];    
     $taskname = $_POST['project_name'];
+    $projectManager = $_POST['project_manager'];
     $projectLocation = $_POST['project_location'];
     $clientName = $_POST['client_name'];
     $budget = $_POST['budget'];
@@ -14,8 +17,8 @@ if (isset($_POST['submit'])) {
     $tedate = $_POST['target_end_date'];
     $status = $_POST['status'];
     $description = $_POST['description'];
-    $query = "INSERT INTO `project_master` (`id`, `name`, `description`, `user_type`, `project_location`, `client_name`, `project_budget`, `target_start_date`, `target_end_date`,  `status`, `created_by`)
-    VALUES (NULL, '$taskname',  '$description', $user_id, '$projectLocation', '$clientName', $budget, '$tsdate', '$tedate', '$status', $user_id)";   
+    $query = "INSERT INTO `project_master` (`id`, `name`, `description`, `user_type`, `project_location`, `client_name`, `project_budget`, `project_manager`, `target_start_date`, `target_end_date`,  `status`, `created_by`)
+    VALUES (NULL, '$taskname',  '$description', $user_id, '$projectLocation', '$clientName', $budget, '$projectManager', '$tsdate', '$tedate', '$status', $user_id)";   
     
 
     $res = mysqli_query($connection, $query);  
@@ -55,13 +58,22 @@ END - Breadcrumbs
         <div class="element-wrapper">
             <div class="element-box">
                 <div class="row">
+
+                <div class="row container-fluid">
                     <div class="col-md-12">
-                        <h5 style="color: blue;border-bottom: 1px solid blue;padding: 10px;">Create Project</h5>                                   
-                    </div>  
+                        <h5 style="color: blue;padding: 10px; border-bottom: 1px solid blue;">
+                        Create Project 
+                        </h5>                                   
+                    </div>
+
+                </div>
+
+                     
+                   
                 </div></br></br>
                 <form class="container" action="" method="post" enctype="multipart/form-data">
                     <div class="row">
-                        <div class="col-sm-1">                            
+                        <div class="col-sm-2">                            
                         </div>
                         <div class="col-sm-4">
                             <div class="form-group"><label for="">Project Name</label>                                
@@ -73,28 +85,33 @@ END - Breadcrumbs
                                 <input type="text" id="description" name="description" class="form-control" />
                             </div>
                         </div>
-                        <div class="col-sm-1">                            
+                        <div class="col-sm-2">                            
                         </div>
                     </div>
                     
                     <div class="row">
-                        <div class="col-sm-1">                            
+                        <div class="col-sm-2">                            
                         </div>
+
                         <div class="col-sm-4">
                             <div class="form-group"><label for="">Project Location</label>                                
                                 <input type="text" id="project_location" name="project_location" class="form-control" />
                             </div>
                         </div>
+
+                        <div class="col-sm-4">
+                            <div class="form-group"><label for="">Project Manager</label>                                
+                                <input type="text" id="project_manager" name="project_manager" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-sm-2">                            
+                        </div>
+                        <div class="col-sm-2">                            
+                        </div>
                         <div class="col-sm-4">
                             <div class="form-group"><label for="">Client Name</label>                                
                                 <input type="text" id="client_name" name="client_name" class="form-control" />
                             </div>
-                        </div>
-                        <div class="col-sm-1"></div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-sm-1">                            
                         </div>
 
                         <div class="col-sm-4">
@@ -103,12 +120,25 @@ END - Breadcrumbs
                             </div>
                         </div>
 
+                        <div class="col-sm-1"></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-2">                            
+                        </div>
+
+                        
                         <div class="col-sm-4">
                             <div class="form-group"><label for="">Target Start Date</label>                                
                             <input class="form-control" name="target_start_date" placeholder="Select Start Date" type="date">
                             </div>
                         </div>
-                        
+                      
+                        <div class="col-sm-4">
+                            <div class="form-group"><label for="">Target End Date</label>                                
+                            <input class="form-control" name="target_end_date" placeholder="Select End Date" type="date">
+                            </div>
+                        </div>
                        
                         <div class="col-sm-1">                            
                         </div>
@@ -116,12 +146,8 @@ END - Breadcrumbs
                     </div>
 
                     <div class="row">
-                        <div class="col-sm-1"></div>
-                        <div class="col-sm-4">
-                            <div class="form-group"><label for="">Target End Date</label>                                
-                            <input class="form-control" name="target_end_date" placeholder="Select End Date" type="date">
-                            </div>
-                        </div>
+                        <div class="col-sm-2"></div>
+                        
                         <div class="col-sm-4">
                             <div class="form-group"><label for="">Status</label>                                
                                 <select id="status" name="status" class="form-control">
@@ -135,7 +161,7 @@ END - Breadcrumbs
                     </div>
 
                     <div class="row">
-                        <div class="col-sm-1"></div>
+                        <div class="col-sm-2"></div>
                         <div class="col-sm-1">
                             <div class="form-group"><label for=""></label>                                
                             <input class="btn btn-primary" type="submit" name="submit" value="submit" />
